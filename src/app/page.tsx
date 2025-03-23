@@ -8,9 +8,16 @@ export const dynamic = 'force-static';
 
 export default function Home() {
   const handleSubmit = (data: { nome: string; email: string }) => {
-    const token = 'SEU_TOKEN_DO_GITHUB'; // Substitua pelo seu token
-    const url = 'https://api.github.com/repos/SEU_USUARIO/SEU_REPOSITORIO/contents/dados.json'; // Substitua pelo seu usuário e repositório
+    const token = process.env.GITHUB_TOKEN;
+    const user = process.env.GITHUB_USER;
+    const repo = process.env.GITHUB_REPO;
+    const url = `https://api.github.com/repos/${user}/${repo}/contents/data.json`;
     const message = 'Adicionando novo envio de formulário';
+
+    if (!token || !user || !repo) {
+      console.error('Variáveis de ambiente do GitHub não configuradas.');
+      return;
+    }
 
     axios.get(url, { headers: { Authorization: `token ${token}` } })
       .then((response) => {
