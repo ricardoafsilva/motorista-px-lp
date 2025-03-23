@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Form from '../components/Form/Form';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 export const dynamic = 'force-static';
 
@@ -20,7 +20,7 @@ export default function Home() {
     }
 
     axios.get(url, { headers: { Authorization: `token ${token}` } })
-      .then((response) => {
+      .then((response: AxiosResponse<{ content: string; sha: string }>) => {
         const existingData = JSON.parse(atob(response.data.content));
         const newData = [...existingData, data];
         const content = btoa(JSON.stringify(newData));
