@@ -2,12 +2,24 @@
 
 import React from 'react';
 import Form from '../components/Form/Form';
+import Header from '../components/Header/Header';
 import axios, { AxiosResponse } from 'axios';
 
 export const dynamic = 'force-static';
 
+  type FormDataType = {
+    name: string;
+    email: string;
+    phone: string;
+    companyName: string;
+    role: string;
+    truckQuantity: string;
+    state: string;
+    city: string;
+  };
+
 export default function Home() {
-  const handleSubmit = (data: { nome: string; email: string }) => {
+  const handleSubmit = (data: FormDataType) => {
     const token = process.env.GITHUB_TOKEN;
     const user = process.env.GITHUB_USER;
     const repo = process.env.GITHUB_REPO;
@@ -36,6 +48,7 @@ export default function Home() {
 
   return (
     <div>
+      <Header />
       <h1>Minha Landing Page</h1>
       <Form onSubmit={handleSubmit} />
     </div>
