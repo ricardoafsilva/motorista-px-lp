@@ -1,6 +1,17 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+
+import { Box, Button, Grid2 as Grid, TextField } from "@mui/material";
+import { FormControl } from "@mui/material";
+import { InputLabel } from "@mui/material";
+import { Select } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { Send as SendIcon } from "@mui/icons-material";
+
+import axios from "axios";
+
+import "./Form.css";
 
 interface FormDataType {
   name: string;
@@ -17,123 +28,256 @@ interface FormProps {
   onSubmit: (data: FormDataType) => void;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [role, setRole] = useState('');
-  const [truckQuantity, setTruckQuantity] = useState('');
-  const [state, setState] = useState('');
-  const [city, setCity] = useState('');
+interface StateType {
+  id: number;
+  sigla: string;
+  nome: string;
+}
 
-  const handleSubmit = (event: React.FormEvent) => {
+interface CityType {
+  id: number;
+  nome: string;
+}
+
+const Form: React.FC<FormProps> = ({ onSubmit }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [role, setRole] = useState("");
+  const [truckQuantity, setTruckQuantity] = useState("");
+  const [state, setState] = useState<number>(0);
+  const [city, setCity] = useState<number>(0);
+  const [allStates, setAllStates] = useState<
+    Array<{ id: number; sigla: string; nome: string }>
+  >([]);
+  const [allCities, setAllCities] = useState<
+    Array<{ id: number; nome: string }>
+  >([]);
+  const allRoles = [
+    { id: 1, name: "Diretor de logística", value: "logdir" },
+    { id: 2, name: "Gestor de frota", value: "fleetmgr" },
+    { id: 3, name: "Motorista", value: "driver" },
+    { id: 4, name: "Proprietário", value: "owner" },
+    { id: 5, name: "RH", value: "hr" },
+  ];
+  const allTruckQuantities = [
+    { id: 1, name: "De 1 a 10", value: "range1" },
+    { id: 2, name: "De 11 a 25", value: "range2" },
+    { id: 3, name: "De 26 a 50", value: "range3" },
+    { id: 4, name: "De 51 a 100", value: "range4" },
+    { id: 5, name: "Acima de 100", value: "range5" },
+  ];
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchStates() {
+      try {
+        const response = await axios.get(
+          "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+        );
+        setAllStates(
+          response.data.sort((a: StateType, b: StateType) => a.nome.localeCompare(b.nome))
+        );
+      } catch (erro) {
+        console.error("Erro ao buscar estados:", erro);
+      }
+    }
+
+    fetchStates();
+  }, []);
+
+  async function fetchCities(stateId: number) {
+    try {
+      const response = await axios.get(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`
+      );
+      setAllCities(response.data.sort((a: CityType, b: CityType) => a.nome.localeCompare(b.nome)));
+    } catch (erro) {
+      console.error("Erro ao buscar cidades:", erro);
+    }
+  }
+
+  function handleStateChange(event: { target: { value: number } }) {
+    const stateId = event.target.value;
+
+    setState(stateId);
+    fetchCities(stateId);
+  }
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit({ name, email, phone, companyName, role, truckQuantity, state, city });
+
+    setLoading(true);
+    await onSubmit({
+      name,
+      email,
+      phone,
+      companyName,
+      role: allRoles.find((currentRole: { value: string; name: string }) => currentRole.value === role)?.name || '',
+      truckQuantity: allTruckQuantities.find((currentTruckQuantity: { value: string; name: string }) => currentTruckQuantity.value === truckQuantity)?.name || '',
+      state: allStates.find((currentState: StateType) => currentState.id === state)?.sigla || '',
+      city: allCities.find((currentCity: CityType) => currentCity.id === city)?.nome || '',
+    });
+    setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex flex-col">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Name:
-        </label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <br />
-      <div className="flex flex-col">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Email:
-        </label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <br />
-      <div className="flex flex-col">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Phone:
-        </label>
-        <input
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <br />
-      <div className="flex flex-col">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Name da Empresa:
-        </label>
-        <input
-          type="text"
-          value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <br />
-      <div className="flex flex-col">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Cargo:
-        </label>
-        <input
-          type="text"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <br />
-      <div className="flex flex-col">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Quantidade de Caminhões:
-        </label>
-        <input
-          type="number"
-          value={truckQuantity}
-          onChange={(e) => setTruckQuantity(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <br />
-      <div className="flex flex-col">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Estado:
-        </label>
-        <input
-          type="text"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <br />
-      <div className="flex flex-col">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Cidade:
-        </label>
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <br />
-      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Enviar
-      </button>
-    </form>
+    <div>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          "& .MuiTextField-root": {
+            m: 1,
+          },
+        }}
+      >
+        <Grid container sx={{ flexGrow: 1 }} rowSpacing={0} columnSpacing={2}>
+          <Grid size={12}>
+            <TextField
+              sx={{ width: "100%" }}
+              required
+              id="name"
+              name="name"
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Grid>
+          <Grid size={12}>
+            <TextField
+              sx={{ width: "100%" }}
+              required
+              id="email"
+              name="email"
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Grid>
+          <Grid size={6}>
+            <TextField
+              sx={{ width: "100%" }}
+              required
+              id="phone"
+              name="phone"
+              label="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </Grid>
+          <Grid size={6}>
+            <TextField
+              sx={{ width: "100%" }}
+              required
+              id="companyName"
+              name="companyName"
+              label="Nome da empresa"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            />
+          </Grid>
+          <Grid size={6}>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel id="role-select-label">Cargo</InputLabel>
+              <Select
+                labelId="role-select-label"
+                id="role-select"
+                value={role}
+                label="Cargo"
+                onChange={(e) => setRole(e.target.value)}
+              >
+                {allRoles.map((role, index) => (
+                  <MenuItem
+                    key={role.id + index}
+                    value={role.value}
+                    selected={index === 0}
+                  >
+                    {role.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid size={6}>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel id="truck-qty-select-label">
+                Quantidade de caminhões
+              </InputLabel>
+              <Select
+                labelId="truck-qty-select-label"
+                id="truck-qty-select"
+                value={truckQuantity}
+                label="Quantidade de caminhões"
+                onChange={(e) => setTruckQuantity(e.target.value)}
+              >
+                {allTruckQuantities.map((quantity, index) => (
+                  <MenuItem
+                    key={quantity.id + index}
+                    value={quantity.value}
+                    selected={index === 0}
+                  >
+                    {quantity.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid size={6}>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel id="state-select-label">Estado</InputLabel>
+              <Select
+                labelId="state-select-label"
+                id="state-select"
+                value={state}
+                label="Estado"
+                onChange={handleStateChange}
+              >
+                <MenuItem value="">Selecione um estado</MenuItem>
+                {allStates.map((currentState) => (
+                  <MenuItem key={currentState.sigla + currentState.id} value={currentState.id}>
+                    {currentState.nome}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid size={6}>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel id="city-select-label">Cidade</InputLabel>
+              <Select
+                labelId="city-select-label"
+                id="city-select"
+                value={city}
+                label="Cidade"
+                onChange={(e) => setCity(e.target.value)}
+              >
+                <MenuItem value="">Selecione uma cidade</MenuItem>
+                {allCities.map((currentCity) => (
+                  <MenuItem key={currentCity.id} value={currentCity.id}>
+                    {currentCity.nome}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid size={12}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              endIcon={<SendIcon />}
+              loading={loading}
+              loadingPosition="end"
+            >
+              Agendar demonstração
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </div>
   );
 };
 
