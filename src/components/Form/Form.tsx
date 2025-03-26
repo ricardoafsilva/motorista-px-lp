@@ -98,8 +98,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     }
   }
 
-  function handleStateChange(event: { target: { value: number } }) {
-    const stateId = event.target.value;
+  function handleStateChange(event: { target: { value: string } }) {
+    const stateId = Number(event.target.value);
 
     setState(stateId);
     fetchCities(stateId);
@@ -230,7 +230,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               <Select
                 labelId="state-select-label"
                 id="state-select"
-                value={state}
+                value={state.toString()}
                 label="Estado"
                 onChange={handleStateChange}
               >
@@ -251,7 +251,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                 id="city-select"
                 value={city}
                 label="Cidade"
-                onChange={(e) => setCity(e.target.value)}
+                onChange={(e) => setCity(Number(e.target.value))}
               >
                 <MenuItem value="">Selecione uma cidade</MenuItem>
                 {allCities.map((currentCity) => (
