@@ -1,14 +1,10 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { Box, Grid2 as Grid } from "@mui/material";
 import Form from "../components/Form/Form";
 import Header from "../components/Header/Header";
 import axios, { AxiosError } from "axios";
-
-import lpCoverImage from "../../public/Gemini_Generated_Image_l0r6oal0r6oal0r6.jpeg";
-import zIndex from "@mui/material/styles/zIndex";
 
 export const dynamic = "force-static";
 

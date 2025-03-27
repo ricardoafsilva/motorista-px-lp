@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   AppBar,
   Toolbar,
-  Typography,
   Button,
   Menu,
   MenuItem,
