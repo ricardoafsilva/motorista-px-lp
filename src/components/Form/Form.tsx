@@ -11,7 +11,7 @@ import { Send as SendIcon } from "@mui/icons-material";
 
 import axios from "axios";
 
-import "./Form.css";
+import "./Form.scss";
 
 interface FormDataType {
   name: string;
@@ -77,7 +77,9 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
         );
         setAllStates(
-          response.data.sort((a: StateType, b: StateType) => a.nome.localeCompare(b.nome))
+          response.data.sort((a: StateType, b: StateType) =>
+            a.nome.localeCompare(b.nome)
+          )
         );
       } catch (erro) {
         console.error("Erro ao buscar estados:", erro);
@@ -92,7 +94,11 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       const response = await axios.get(
         `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`
       );
-      setAllCities(response.data.sort((a: CityType, b: CityType) => a.nome.localeCompare(b.nome)));
+      setAllCities(
+        response.data.sort((a: CityType, b: CityType) =>
+          a.nome.localeCompare(b.nome)
+        )
+      );
     } catch (erro) {
       console.error("Erro ao buscar cidades:", erro);
     }
@@ -114,10 +120,22 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       email,
       phone,
       companyName,
-      role: allRoles.find((currentRole: { value: string; name: string }) => currentRole.value === role)?.name || '',
-      truckQuantity: allTruckQuantities.find((currentTruckQuantity: { value: string; name: string }) => currentTruckQuantity.value === truckQuantity)?.name || '',
-      state: allStates.find((currentState: StateType) => currentState.id === state)?.sigla || '',
-      city: allCities.find((currentCity: CityType) => currentCity.id === city)?.nome || '',
+      role:
+        allRoles.find(
+          (currentRole: { value: string; name: string }) =>
+            currentRole.value === role
+        )?.name || "",
+      truckQuantity:
+        allTruckQuantities.find(
+          (currentTruckQuantity: { value: string; name: string }) =>
+            currentTruckQuantity.value === truckQuantity
+        )?.name || "",
+      state:
+        allStates.find((currentState: StateType) => currentState.id === state)
+          ?.sigla || "",
+      city:
+        allCities.find((currentCity: CityType) => currentCity.id === city)
+          ?.nome || "",
     });
     setLoading(false);
   };
@@ -125,6 +143,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   return (
     <div>
       <Box
+        className="form-container"
         component="form"
         onSubmit={handleSubmit}
         sx={{
@@ -134,18 +153,18 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
         }}
       >
         <Grid container sx={{ flexGrow: 1 }} rowSpacing={0} columnSpacing={2}>
-          <Grid size={12}>
+          <Grid container size={12}>
             <TextField
-              sx={{ width: "100%" }}
               required
               id="name"
               name="name"
               label="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              sx={{ width: "100%" }}
             />
           </Grid>
-          <Grid size={12}>
+          <Grid size={12} container>
             <TextField
               sx={{ width: "100%" }}
               required
@@ -156,7 +175,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
-          <Grid size={6}>
+          <Grid size={6} container>
             <TextField
               sx={{ width: "100%" }}
               required
@@ -167,7 +186,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>
-          <Grid size={6}>
+          <Grid size={6} container>
             <TextField
               sx={{ width: "100%" }}
               required
@@ -178,7 +197,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               onChange={(e) => setCompanyName(e.target.value)}
             />
           </Grid>
-          <Grid size={6}>
+          <Grid size={6} container>
             <FormControl sx={{ width: "100%" }}>
               <InputLabel id="role-select-label">Cargo</InputLabel>
               <Select
@@ -200,7 +219,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={6}>
+          <Grid size={6} container>
             <FormControl sx={{ width: "100%" }}>
               <InputLabel id="truck-qty-select-label">
                 Quantidade de caminhões
@@ -224,7 +243,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={6}>
+          <Grid size={6} container>
             <FormControl sx={{ width: "100%" }}>
               <InputLabel id="state-select-label">Estado</InputLabel>
               <Select
@@ -236,14 +255,17 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               >
                 <MenuItem value="">Selecione um estado</MenuItem>
                 {allStates.map((currentState) => (
-                  <MenuItem key={currentState.sigla + currentState.id} value={currentState.id}>
+                  <MenuItem
+                    key={currentState.sigla + currentState.id}
+                    value={currentState.id}
+                  >
                     {currentState.nome}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={6}>
+          <Grid size={6} container>
             <FormControl sx={{ width: "100%" }}>
               <InputLabel id="city-select-label">Cidade</InputLabel>
               <Select
@@ -262,7 +284,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={12}>
+          <Grid size={12} container>
             <Button
               type="submit"
               variant="contained"

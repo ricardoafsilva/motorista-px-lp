@@ -1,7 +1,11 @@
-import type { Metadata } from "next";
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+'use client';
+
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { Poppins } from "next/font/google";
-import "./globals.css";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { metadata } from './metadata';
+
+import "./globals.scss";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -9,10 +13,11 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const metadata: Metadata = {
-  title: "Empresas | Motorista PX",
-  description: "Tenha o custo somente quando tem a demanda. Contrate seu Motorista PX em apenas 3 cliques!",
-};
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 export default function RootLayout({
   children,
@@ -21,14 +26,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body
-        className={`${poppins.variable}`}
-      >
+      <head>
+          <title>{metadata.title}</title>
+          <meta name="description" content={metadata.description} />
+      </head>
+      <body className={`${poppins.variable}`}>
         <AppRouterCacheProvider>
-          {children}
+          <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
   );
 }
-

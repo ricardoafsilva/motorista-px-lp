@@ -1,0 +1,12 @@
+@use "../../app/globals.scss";
+
+header {
+  &.header-container {
+    background-color: globals.$px-blue-800;
+    margin-bottom: 40px;
+  }
+}
+
+.header-logo {
+  margin-right: auto;
+}

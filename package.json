@@ -30,6 +30,7 @@
     "eslint-config-next": "15.2.3",
     "gh-pages": "^6.3.0",
     "postcss-import": "^16.1.0",
+    "sass": "^1.86.0",
     "typescript": "^5"
   }
 }

@@ -1,0 +1,7 @@
+@use '../../app/globals.scss';
+
+.form-container {
+    padding: 24px 16px;
+    background-color: transparentize(globals.$surface-background, 0.08);
+    border-radius: 8px;
+}
