@@ -84,16 +84,16 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, padding: "20px" }}>
         <Grid container>
           <Grid
             container
-            size={{ md: 12, lg: 8, xl: 8 }}
+            size={{ sm: 12, md: 12, lg: 8, xl: 8 }}
             spacing={2}
-            offset={{ md: 0, lg: 2, xl: 2 }}
+            offset={{ sm: 0, md: 0, lg: 2, xl: 2 }}
           >
-            <Grid size={6}></Grid>
-            <Grid size={6}>
+            <Grid size={{sm: 12, md: 12, lg: 6, xl: 6}}></Grid>
+            <Grid size={{sm: 12, md: 12, lg: 6, xl: 6}}>
               {!dataSent ? (
                 <Form onSubmit={handleSubmit} />
               ) : (
