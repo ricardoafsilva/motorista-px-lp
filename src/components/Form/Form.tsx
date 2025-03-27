@@ -158,7 +158,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               required
               id="name"
               name="name"
-              label="Name"
+              label="Nome"
               value={name}
               onChange={(e) => setName(e.target.value)}
               sx={{ width: "100%" }}
@@ -181,7 +181,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               required
               id="phone"
               name="phone"
-              label="Phone"
+              label="Telefone (com DDD)"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -198,7 +198,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             />
           </Grid>
           <Grid size={6} container>
-            <FormControl sx={{ width: "100%" }}>
+            <FormControl sx={{ width: "100%", margin: "8px" }} required>
               <InputLabel id="role-select-label">Cargo</InputLabel>
               <Select
                 labelId="role-select-label"
@@ -220,7 +220,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             </FormControl>
           </Grid>
           <Grid size={6} container>
-            <FormControl sx={{ width: "100%" }}>
+            <FormControl sx={{ width: "100%", margin: "8px" }} required>
               <InputLabel id="truck-qty-select-label">
                 Quantidade de caminhões
               </InputLabel>
@@ -244,7 +244,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             </FormControl>
           </Grid>
           <Grid size={6} container>
-            <FormControl sx={{ width: "100%" }}>
+            <FormControl sx={{ width: "100%", margin: "8px" }} required>
               <InputLabel id="state-select-label">Estado</InputLabel>
               <Select
                 labelId="state-select-label"
@@ -266,7 +266,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             </FormControl>
           </Grid>
           <Grid size={6} container>
-            <FormControl sx={{ width: "100%" }}>
+            <FormControl sx={{ width: "100%", margin: "8px" }} required>
               <InputLabel id="city-select-label">Cidade</InputLabel>
               <Select
                 labelId="city-select-label"
@@ -293,6 +293,10 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               endIcon={<SendIcon />}
               loading={loading}
               loadingPosition="end"
+              sx={{
+                width: "100%",
+                margin: "8px",
+              }}
             >
               Agendar demonstração
             </Button>

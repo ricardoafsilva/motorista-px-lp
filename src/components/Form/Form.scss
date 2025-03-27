@@ -4,4 +4,27 @@
     padding: 24px 16px;
     background-color: transparentize(globals.$surface-background, 0.08);
     border-radius: 8px;
+
+    button {
+        font-size: 1em;
+        font-weight: 600;
+        margin-right: 8px;
+        margin-left: 8px;
+
+        &.MuiButton-colorPrimary {
+            padding-right: 24px;
+            padding-left: 24px;
+            background-color: globals.$accent-color;
+            color: globals.$text-color;
+            -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.3);
+            -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.3);
+            box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.3);
+
+            &:hover {
+                background-color: globals.$accent-color-light;
+                transform: translate(2px, 2px);
+                transition: all 0.2s ease-in-out;
+            }
+        }
+    }
 }
