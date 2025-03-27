@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $primary-color: #2b5f8c;
 $secondary-color: #3d85c5;
 $accent-color: #ff7e2e;
@@ -30,6 +32,6 @@ body {
 
 .success-message {
   padding: 24px 16px;
-  background-color: transparentize($surface-background, 0.08);
+  background-color: color.scale($surface-background, $alpha: -8%);
   border-radius: 8px;
 }

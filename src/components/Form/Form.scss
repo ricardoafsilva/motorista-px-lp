@@ -1,8 +1,9 @@
+@use 'sass:color';
 @use "../../app/globals.scss";
 
 .form-container {
   padding: 24px 16px;
-  background-color: transparentize(globals.$surface-background, 0.08);
+  background-color: color.scale(globals.$surface-background, $alpha: -8%);
   border-radius: 8px;
 
   button {
