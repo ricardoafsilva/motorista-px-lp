@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Menu,
-  MenuItem,
-  Box,
-} from "@mui/material";
+import { AppBar, Toolbar, Button, Menu, MenuItem, Box } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import horizontalLogo from "../../../public/logo-motorista-px-horizontal.webp";
@@ -70,10 +63,16 @@ const Header: React.FC<HeaderProps> = () => {
             open={Boolean(anchorEl1)}
             onClose={() => handleMenuClose(1)}
           >
-            <MenuItem onClick={() => handleMenuClose(1)}>Recursos de marca</MenuItem>
+            <MenuItem onClick={() => handleMenuClose(1)}>
+              Recursos de marca
+            </MenuItem>
           </Menu>
         </Box>
-        <Link href="https://motoristapx.com.br/atendimento/" passHref target="_blank">
+        <Link
+          href="https://motoristapx.com.br/atendimento/"
+          passHref
+          target="_blank"
+        >
           <Button color="inherit">Atendimento</Button>
         </Link>
         <Link href="https://motoristapx.com.br/blog/" passHref target="_blank">
@@ -89,7 +88,9 @@ const Header: React.FC<HeaderProps> = () => {
             onClose={() => handleMenuClose(2)}
           >
             <MenuItem onClick={() => handleMenuClose(2)}>Sou empresa</MenuItem>
-            <MenuItem onClick={() => handleMenuClose(2)}>Sou motorista</MenuItem>
+            <MenuItem onClick={() => handleMenuClose(2)}>
+              Sou motorista
+            </MenuItem>
           </Menu>
         </Box>
         <Button variant="contained" color="primary">

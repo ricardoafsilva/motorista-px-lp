@@ -92,9 +92,7 @@ export default function Home() {
             spacing={2}
             offset={{ md: 0, lg: 2, xl: 2 }}
           >
-            <Grid
-              size={6}
-            ></Grid>
+            <Grid size={6}></Grid>
             <Grid size={6}>
               {!dataSent ? (
                 <Form onSubmit={handleSubmit} />

@@ -111,6 +111,25 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     fetchCities(stateId);
   }
 
+  function handlePhoneChange(event: { target: { value: string } }) {
+    setPhone(formatPhone(event.target.value));
+  }
+
+  const formatPhone = (value: string) => {
+    const numbers = value.replace(/\D/g, "");
+    let formatted = "";
+    if (numbers.length > 0) {
+      formatted = "(" + numbers.substring(0, 2);
+    }
+    if (numbers.length > 2) {
+      formatted += ") " + numbers.substring(2, 7);
+    }
+    if (numbers.length > 7) {
+      formatted += "-" + numbers.substring(7, 11);
+    }
+    return formatted;
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -183,7 +202,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               name="phone"
               label="Telefone (com DDD)"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange}
             />
           </Grid>
           <Grid size={6} container>

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { Poppins } from "next/font/google";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { metadata } from './metadata';
+import { metadata } from "./metadata";
 
 import "./globals.scss";
 
@@ -27,8 +27,8 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <head>
-          <title>{metadata.title}</title>
-          <meta name="description" content={metadata.description} />
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
       </head>
       <body className={`${poppins.variable}`}>
         <AppRouterCacheProvider>
