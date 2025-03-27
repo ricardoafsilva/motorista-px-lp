@@ -27,3 +27,9 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.success-message {
+  padding: 24px 16px;
+  background-color: transparentize($surface-background, 0.08);
+  border-radius: 8px;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Box, Grid2 as Grid } from "@mui/material";
+import { Box, Grid2 as Grid, Typography } from "@mui/material";
 import Form from "../components/Form/Form";
 import Header from "../components/Header/Header";
 import axios, { AxiosError } from "axios";
@@ -92,13 +92,19 @@ export default function Home() {
             spacing={2}
             offset={{ sm: 0, md: 0, lg: 2, xl: 2 }}
           >
-            <Grid size={{sm: 12, md: 12, lg: 6, xl: 6}}></Grid>
-            <Grid size={{sm: 12, md: 12, lg: 6, xl: 6}}>
+            <Grid size={{ sm: 12, md: 12, lg: 6, xl: 6 }}></Grid>
+            <Grid size={{ sm: 12, md: 12, lg: 6, xl: 6 }}>
               {!dataSent ? (
                 <Form onSubmit={handleSubmit} />
               ) : (
                 <div role="status" className="success-message">
-                  <p>Dados enviados com sucesso!</p>
+                  <Typography variant="h3" gutterBottom>
+                    Muito obrigado pelo interesse!
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Em breve um consultor Motorista PX entrará em contato com
+                    você.
+                  </Typography>
                 </div>
               )}
             </Grid>
